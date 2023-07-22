@@ -1,0 +1,49 @@
+<!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
+<idea-plugin>
+  <!-- Unique identifier of the plugin. It should be FQN. It cannot be changed between the plugin versions. -->
+  <id>com.unitedthinkers.fly</id>
+
+  <!-- Public plugin name should be written in Title Case.
+       Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-name -->
+  <name>BetterFly</name>
+
+  <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
+  <vendor email="kzhukov@unitedthinkers.com" url="https://unitedthinkers.com">United Thinkers</vendor>
+
+  <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
+       Simple HTML elements (text formatting, paragraphs, and lists) can be added inside of <![CDATA[ ]]> tag.
+       Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
+  <description><![CDATA[
+    Allow to redeploy JBoss resource files on the fly.<br>
+    <h4>To redeploy file:</h4>
+    <p>Press Ctrl+\ Ctrl+P</p>
+    <em>or</em>
+    <p>Use "Redeploy Resource" item of right mouse click menu popup</p>
+  ]]></description>
+
+  <!-- Product and plugin compatibility requirements.
+       Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
+  <depends>com.intellij.modules.platform</depends>
+
+  <!-- Extension points defined by the plugin.
+       Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
+  <extensions defaultExtensionNs="com.intellij">
+    <notificationGroup id="Custom Notification Group"
+                       displayType="BALLOON"
+                       />
+    <applicationService
+            serviceImplementation="com.unitedthinkers.fly.settings.AppSettingsState"/>
+    <applicationConfigurable
+            parentId="tools"
+            instance="com.unitedthinkers.fly.settings.AppSettingsConfigurable"
+            id="org.intellij.sdk.settings.AppSettingsConfigurable"
+            displayName="BetterFly: Plugin Settings"/>
+  </extensions>
+  <actions>
+    <action id="com.unitedthinkers.fly.SaveAction" class="com.unitedthinkers.fly.SaveAction" text="Redeploy Resource"
+            description="Redeploy Resource">
+      <keyboard-shortcut keymap="$default" first-keystroke="ctrl BACK_SLASH" second-keystroke="ctrl P"/>
+      <add-to-group group-id="EditorPopupMenu" anchor="first"/>
+    </action>
+  </actions>
+</idea-plugin>

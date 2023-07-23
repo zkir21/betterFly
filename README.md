@@ -44,14 +44,14 @@ or
 
 - use "Redeploy Resource" item of right mouse click menu popup:
 
-![Popup Menu](https://i.imgur.com/pfjlLdd.png)
+![Popup Menu](https://i.imgur.com/wYt2BET.png)
 
 When resource file is copied successfully you'll see popup message:
 
 ![Success message](https://i.imgur.com/RrDbLXi.png)
 
 ## Limitations
-Mvel files are copied successfully but application can not apply them at once now. You need to restart server.
+Mvel files can not be redeployed.
 
 ## Problem
 If exception raised during file coping it is reported in log file. To get the location of idea.log file choose IDE menu Help -> Show Log in Files.

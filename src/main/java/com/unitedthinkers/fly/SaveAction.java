@@ -48,6 +48,8 @@ public class SaveAction extends AnAction {
 	private static final String EMPTY = "";
 	private static final String NOTIFICATION_STATUS = "Status";
 	private static final String NOTIFICATION_GROUP = "Custom Notification Group";
+	private static final String SRC_MAIN_JAVA = "/src/main/java/".replaceAll("/", File.separator);
+	private static final String SRC_MAIN_JAVA_REPLACE_WITH = "/WEB-INF/classes/".replaceAll("/", File.separator);
 	private static final Map<Path, Path> PROCESSED_FILE = new HashMap<>();
 
 	private enum PomTags {
@@ -113,7 +115,7 @@ public class SaveAction extends AnAction {
 				notify(event, Messages.MODULE_DIRECTORY_NOT_FOUND.getValue(), NotificationType.ERROR);
 				return;
 			}
-			copiedPath = Paths.get(moduleDirectory.get().getAbsolutePath() + psiFile.getVirtualFile().getCanonicalPath().replace(moduleInfo.getModuleDirectory(), EMPTY).replace(moduleInfo.getSourceDirectory(), EMPTY));
+			copiedPath = Paths.get(moduleDirectory.get().getAbsolutePath() + psiFile.getVirtualFile().getCanonicalPath().replace(moduleInfo.getModuleDirectory(), EMPTY).replace(moduleInfo.getSourceDirectory(), EMPTY).replace(SRC_MAIN_JAVA, SRC_MAIN_JAVA_REPLACE_WITH));
 			PROCESSED_FILE.put(originalPath, copiedPath);
 		}
 		checkFileSaved(psiFile.getVirtualFile());

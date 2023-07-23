@@ -44,7 +44,7 @@ or
 
 - use "Redeploy Resource" item of right mouse click menu popup:
 
-![Popup Menu](https://i.imgur.com/pfjlLdd.png)
+![Popup Menu](https://i.imgur.com/wYt2BET.png)
 
 When resource file is copied successfully you'll see popup message:
 

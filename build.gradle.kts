@@ -1,10 +1,12 @@
+fun properties(key: String) = project.findProperty(key).toString()
+
 plugins {
   id("java")
   id("org.jetbrains.intellij") version "1.15.0"
 }
 
-group = "com.unitedthinkers"
-version = "1.0"
+group = properties("pluginGroup")
+version = properties("pluginVersion")
 
 repositories {
   mavenCentral()
@@ -13,8 +15,9 @@ repositories {
 // Configure Gradle IntelliJ Plugin
 // Read more: https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html
 intellij {
-  version.set("2023.1.3")
-  type.set("IC") // Target IDE Platform
+  pluginName.set(properties("pluginName"))
+  version.set(properties("platformVersion"))
+  type.set(properties("platformType"))
 
   plugins.set(listOf(/* Plugin Dependencies */))
 }
@@ -27,17 +30,8 @@ tasks {
   }
 
   patchPluginXml {
-    sinceBuild.set("231")
-    untilBuild.set("232.*")
+    sinceBuild.set(properties("pluginSinceBuild"))
+    untilBuild.set(properties("pluginUntilBuild"))
   }
 
-  signPlugin {
-    certificateChain.set(System.getenv("CERTIFICATE_CHAIN"))
-    privateKey.set(System.getenv("PRIVATE_KEY"))
-    password.set(System.getenv("PRIVATE_KEY_PASSWORD"))
-  }
-
-  publishPlugin {
-    token.set(System.getenv("PUBLISH_TOKEN"))
-  }
 }

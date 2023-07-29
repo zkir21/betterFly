@@ -15,7 +15,7 @@
        Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
   <description><![CDATA[
     Allow to redeploy JBoss resource files on the fly.<br>
-    <h4>To redeploy file:</h4>
+    <h3>To redeploy file:</h3>
     <p>Press Ctrl+\ Ctrl+P</p>
     <em>or</em>
     <p>Use "Redeploy Resource" item of right mouse click menu popup</p>

@@ -22,7 +22,7 @@ gradlew.bat build
 ```
 You can find plugin jar file on path: build/libs/fly-[version].jar
 ## Install
-Install plugin by choosing menu File -> Settings -> Plugins
+Go to plugin settings by choosing menu File -> Settings -> Plugins
 
 Then do the next:
 

@@ -35,23 +35,23 @@ public class AppSettingsConfigurable implements Configurable {
 	@Override
 	public boolean isModified() {
 		AppSettingsState settings = AppSettingsState.getInstance();
-		boolean modified = !mySettingsComponent.getUnipayJbossPathText().equals(settings.unipayJbossPath);
-		modified |= mySettingsComponent.getUnipayArtifactIdText() != settings.unipayArtifactId;
+		boolean modified = !mySettingsComponent.getJbossPathText().equals(settings.jbossPath);
+		modified |= mySettingsComponent.getModuleArtifactIdText() != settings.moduleArtifactId;
 		return modified;
 	}
 
 	@Override
 	public void apply() {
 		AppSettingsState settings = AppSettingsState.getInstance();
-		settings.unipayJbossPath = mySettingsComponent.getUnipayJbossPathText();
-		settings.unipayArtifactId = mySettingsComponent.getUnipayArtifactIdText();
+		settings.jbossPath = mySettingsComponent.getJbossPathText();
+		settings.moduleArtifactId = mySettingsComponent.getModuleArtifactIdText();
 	}
 
 	@Override
 	public void reset() {
 		AppSettingsState settings = AppSettingsState.getInstance();
-		mySettingsComponent.setUnipayJbossPathText(settings.unipayJbossPath);
-		mySettingsComponent.setUnipayArtifactIdText(settings.unipayArtifactId);
+		mySettingsComponent.setJbossPathText(settings.jbossPath);
+		mySettingsComponent.setModuleArtifactIdText(settings.moduleArtifactId);
 	}
 
 	@Override

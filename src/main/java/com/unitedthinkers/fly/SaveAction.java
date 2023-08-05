@@ -97,13 +97,13 @@ public class SaveAction extends AnAction {
 
 		if (copiedPath == null || !Files.exists(copiedPath)) {
 			AppSettingsState settings = AppSettingsState.getInstance();
-			File vfsDirectory = new File(getVfsPath(settings.unipayJbossPath));
+			File vfsDirectory = new File(getVfsPath(settings.jbossPath));
 
 			File vfsDeploymentDirectory = getVfsDeploymentDirectory(event, vfsDirectory);
 			if (vfsDeploymentDirectory == null) {
 				return;
 			}
-			final String artifactId = settings.unipayArtifactId;
+			final String artifactId = settings.moduleArtifactId;
 			final String basePath = event.getData(CommonDataKeys.PROJECT).getBasePath();
 			final String pomFilePath = basePath.concat(File.separator).concat(artifactId).concat(File.separator).concat(POM_XML);
 

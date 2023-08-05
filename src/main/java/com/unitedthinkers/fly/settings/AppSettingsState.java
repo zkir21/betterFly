@@ -19,8 +19,8 @@ import org.jetbrains.annotations.Nullable;
 )
 public class AppSettingsState implements PersistentStateComponent<AppSettingsState> {
 
-	public String unipayJbossPath = "/unipay/jboss7";
-	public String unipayArtifactId = "unipay-ear";
+	public String jbossPath = "/unipay/jboss7";
+	public String moduleArtifactId = "unipay-ear";
 
 	public static AppSettingsState getInstance() {
 		return ApplicationManager.getApplication().getService(AppSettingsState.class);

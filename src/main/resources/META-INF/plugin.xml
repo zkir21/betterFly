@@ -14,7 +14,7 @@
        Simple HTML elements (text formatting, paragraphs, and lists) can be added inside of <![CDATA[ ]]> tag.
        Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
   <description><![CDATA[
-    Allow to redeploy JBoss resource files on the fly.<br>
+    Allow to redeploy resource files on the fly for JBoss EAP.<br>
     <h3>To redeploy file:</h3>
     <p>Press Ctrl+\ Ctrl+P</p>
     <em>or</em>

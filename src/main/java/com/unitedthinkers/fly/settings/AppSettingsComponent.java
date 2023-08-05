@@ -15,13 +15,13 @@ import org.jetbrains.annotations.NotNull;
 public class AppSettingsComponent {
 
 	private final JPanel mainPanel;
-	private final JBTextField unipayJbossPath = new JBTextField();
-	private final JBTextField unipayArtifactId = new JBTextField();
+	private final JBTextField jbossPath = new JBTextField();
+	private final JBTextField moduleArtifactId = new JBTextField();
 
 	public AppSettingsComponent() {
 		mainPanel = FormBuilder.createFormBuilder()
-				.addLabeledComponent(new JBLabel("Enter unipay JBoss path: "), unipayJbossPath, 1, false)
-				.addLabeledComponent(new JBLabel("Enter unipay artifact Id: "), unipayArtifactId, 1, false)
+				.addLabeledComponent(new JBLabel("Enter JBoss path: "), jbossPath, 1, false)
+				.addLabeledComponent(new JBLabel("Enter module artifact Id: "), moduleArtifactId, 1, false)
 				.addComponentFillVertically(new JPanel(), 0)
 				.getPanel();
 	}
@@ -31,25 +31,25 @@ public class AppSettingsComponent {
 	}
 
 	public JComponent getPreferredFocusedComponent() {
-		return unipayJbossPath;
+		return jbossPath;
 	}
 
 	@NotNull
-	public String getUnipayJbossPathText() {
-		return unipayJbossPath.getText();
+	public String getJbossPathText() {
+		return jbossPath.getText();
 	}
 
-	public void setUnipayJbossPathText(@NotNull String newText) {
-		unipayJbossPath.setText(newText);
+	public void setJbossPathText(@NotNull String newText) {
+		jbossPath.setText(newText);
 	}
 
 	@NotNull
-	public String getUnipayArtifactIdText() {
-		return unipayArtifactId.getText();
+	public String getModuleArtifactIdText() {
+		return moduleArtifactId.getText();
 	}
 
-	public void setUnipayArtifactIdText(@NotNull String newText) {
-		unipayArtifactId.setText(newText);
+	public void setModuleArtifactIdText(@NotNull String newText) {
+		moduleArtifactId.setText(newText);
 	}
 
 }

@@ -36,7 +36,7 @@ Choose menu File -> Settings -> Tools -> BetterFly: Plugin Settings
 ![Plugin Setup](https://i.imgur.com/frasqkv.png)
 
 You must enter:
-1. The JBoss server install folder path value.
+1. The JBoss server install folder path value. For Windows OS you should use slashes in folder path. For example: C:/unipay/jboss7/
 2. Artifact Id of the module which resources will be redeployed from IDE.
 ## Usage
 When your current IDE editor window contains resource file:

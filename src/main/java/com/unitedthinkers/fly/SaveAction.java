@@ -48,8 +48,8 @@ public class SaveAction extends AnAction {
 	private static final String EMPTY = "";
 	private static final String NOTIFICATION_STATUS = "Status";
 	private static final String NOTIFICATION_GROUP = "Custom Notification Group";
-	private static final String SRC_MAIN_JAVA = "/src/main/java/".replaceAll("/", File.separator);
-	private static final String SRC_MAIN_JAVA_REPLACE_WITH = "/WEB-INF/classes/".replaceAll("/", File.separator);
+	private static final String SRC_MAIN_JAVA = "/src/main/java/".replace("/", File.separator);
+	private static final String SRC_MAIN_JAVA_REPLACE_WITH = "/WEB-INF/classes/".replace("/", File.separator);
 	private static final Map<Path, Path> PROCESSED_FILE = new HashMap<>();
 
 	private enum PomTags {

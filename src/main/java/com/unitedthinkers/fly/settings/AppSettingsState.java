@@ -21,6 +21,9 @@ public class AppSettingsState implements PersistentStateComponent<AppSettingsSta
 
 	public String jbossPath = "/unipay/jboss7";
 	public String moduleArtifactId = "unipay-ear";
+	public String googleKeyFile;
+	public String googleSheetsDataFile = "1_S0GqdchUf7LdLaQivgZ_djnnzrkWlJXygIfFkbwg3o";
+	public String googleSheetsTagFile = "14EpCUWZvnZrU2fhjrRw2p6qr1_E1QJzXqlUCi6CEyXc";
 
 	public static AppSettingsState getInstance() {
 		return ApplicationManager.getApplication().getService(AppSettingsState.class);

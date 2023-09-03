@@ -1,19 +1,21 @@
 package com.unitedthinkers.fly;
 
-import com.intellij.notification.NotificationGroupManager;
 import com.intellij.notification.NotificationType;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.actionSystem.DataContext;
-import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.fileEditor.FileDocumentManager;
 import com.intellij.openapi.fileTypes.FileType;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiDirectory;
 import com.intellij.psi.PsiFile;
+import com.unitedthinkers.fly.data.ModuleInfo;
+import com.unitedthinkers.fly.exception.BetterFlyException;
 import com.unitedthinkers.fly.settings.AppSettingsState;
+import com.unitedthinkers.fly.utils.NotificationUtil;
+import com.unitedthinkers.fly.utils.NotificationUtil.Messages;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
@@ -39,15 +41,12 @@ import org.jetbrains.annotations.Nullable;
  * @company UnitedThinkers
  * @since 2023/07/09
  */
-public class SaveAction extends AnAction {
-
-	private final static Logger LOG = Logger.getInstance(SaveAction.class);
+public class CopyFileAction extends AnAction {
 
 	private static final String VFS_PATH = "/standalone/tmp/vfs/deployment";
 	private static final String POM_XML = "pom.xml";
 	private static final String EMPTY = "";
-	private static final String NOTIFICATION_STATUS = "Status";
-	private static final String NOTIFICATION_GROUP = "Custom Notification Group";
+
 	private static final String SRC_MAIN_JAVA = "/src/main/java/".replace("/", File.separator);
 	private static final String SRC_MAIN_JAVA_REPLACE_WITH = "/WEB-INF/classes/".replace("/", File.separator);
 	private static final Map<Path, Path> PROCESSED_FILE = new HashMap<>();
@@ -70,24 +69,6 @@ public class SaveAction extends AnAction {
 		}
 	}
 
-	private enum Messages {
-		WRONG_VFS_DIRECTORY("Wrong VFS Directory: %s"),
-		NO_VFS_DEPLOYMENT_DIRECTORY_FOUND("No VFS Deployment Directory found"),
-		MORE_THEN_ONE_VFS_DEPLOYMENT_DIRECTORIES("There are more then one VFS Deployment Directories"),
-		REDEPLOYED_SUCCESSFULLY("%s: redeployed successfully"),
-		MODULE_DIRECTORY_NOT_FOUND("Module Directory mot found"),
-		CANNOT_COPY_FILE("Cannot copy file: %s");
-
-		private final String value;
-
-		Messages(String value) {
-			this.value = value;
-		}
-
-		public String getValue() {
-			return value;
-		}
-	}
 
 	@Override
 	public void actionPerformed(@NotNull AnActionEvent event) {
@@ -112,7 +93,7 @@ public class SaveAction extends AnAction {
 			Optional<File> moduleDirectory = moduleInfo.getVfsModuleDirectory();
 
 			if (!moduleDirectory.isPresent()) {
-				notify(event, Messages.MODULE_DIRECTORY_NOT_FOUND.getValue(), NotificationType.ERROR);
+				NotificationUtil.notify(event, Messages.MODULE_DIRECTORY_NOT_FOUND.getValue(), NotificationType.ERROR);
 				return;
 			}
 			copiedPath = Paths.get(moduleDirectory.get().getAbsolutePath() + psiFile.getVirtualFile().getCanonicalPath().replace(moduleInfo.getModuleDirectory(), EMPTY).replace(moduleInfo.getSourceDirectory(), EMPTY).replace(SRC_MAIN_JAVA, SRC_MAIN_JAVA_REPLACE_WITH));
@@ -120,19 +101,26 @@ public class SaveAction extends AnAction {
 		}
 		checkFileSaved(psiFile.getVirtualFile());
 		try {
-			Files.copy(originalPath, copiedPath, StandardCopyOption.REPLACE_EXISTING);
-			notify(event, String.format(Messages.REDEPLOYED_SUCCESSFULLY.getValue(), psiFile.getName()), NotificationType.INFORMATION);
+			copyFile(originalPath, copiedPath);
+			NotificationUtil.notify(event, String.format(Messages.REDEPLOYED_SUCCESSFULLY.getValue(), psiFile.getName()), NotificationType.INFORMATION);
+		} catch (BetterFlyException ex) {
+			NotificationUtil.notify(event, ex.getUiMessage(), NotificationType.ERROR);
+		}
+	}
+
+	@NotNull
+	private static Path copyFile(Path originalPath, Path copiedPath) {
+		try {
+			return Files.copy(originalPath, copiedPath, StandardCopyOption.REPLACE_EXISTING);
 		} catch (IOException ex) {
-			final String message = String.format(Messages.CANNOT_COPY_FILE.getValue(), originalPath);
-			notify(event, message, NotificationType.ERROR);
-			LOG.error(message, ex);
+			throw BetterFlyException.b06(ex, String.format(Messages.CANNOT_COPY_FILE.getValue(), originalPath));
 		}
 	}
 
 	@Nullable
 	private static File getVfsDeploymentDirectory(@NotNull AnActionEvent event, File vfsDirectory) {
 		if (!vfsDirectory.exists()) {
-			notify(event, String.format(Messages.WRONG_VFS_DIRECTORY.getValue(), vfsDirectory.getAbsolutePath()), NotificationType.ERROR);
+			NotificationUtil.notify(event, String.format(Messages.WRONG_VFS_DIRECTORY.getValue(), vfsDirectory.getAbsolutePath()), NotificationType.ERROR);
 			return null;
 		}
 		File[] directories = vfsDirectory.listFiles(File::isDirectory);
@@ -143,7 +131,7 @@ public class SaveAction extends AnAction {
 			} else {
 				message = Messages.MORE_THEN_ONE_VFS_DEPLOYMENT_DIRECTORIES;
 			}
-			notify(event, message.getValue(), NotificationType.ERROR);
+			NotificationUtil.notify(event, message.getValue(), NotificationType.ERROR);
 			return null;
 		}
 		return directories[0];
@@ -167,13 +155,6 @@ public class SaveAction extends AnAction {
 		return !fileType.getName().equals("JAVA");
 	}
 
-	private static void notify(@NotNull AnActionEvent e, String content, NotificationType type) {
-		NotificationGroupManager.getInstance()
-				.getNotificationGroup(NOTIFICATION_GROUP)
-				.createNotification(NOTIFICATION_STATUS, content, type)
-				.notify(e.getProject());
-	}
-
 	private static String getVfsPath(String root) {
 		if (root.endsWith(File.separator)) {
 			root = root.substring(0, root.length() - 1);
@@ -191,8 +172,7 @@ public class SaveAction extends AnAction {
 				moduleInfos.put(((Xpp3Dom) dom.getChild(PomTags.ARTIFACT_ID.getValue())).getValue(), ((Xpp3Dom) dom.getChild(PomTags.BUNDLE_FILE_NAME.getValue())).getValue());
 			}
 		} catch (Exception e) {
-			LOG.error(e);
-			throw new RuntimeException(e);
+			throw BetterFlyException.b05(e, pomFilePath);
 		}
 		return moduleInfos;
 	}
@@ -230,8 +210,7 @@ public class SaveAction extends AnAction {
 					.filter(file -> file.isDirectory() && file.getName().startsWith(vfsModuleBeginWithName))
 					.findFirst();
 		} catch (Exception e) {
-			LOG.error(e);
-			throw new RuntimeException(e);
+			throw BetterFlyException.b05(e, pomFilePath);
 		}
 		return new ModuleInfo(artifactId, sourceDirectory, psiDirectory.getVirtualFile().getCanonicalPath(), vfsModuleDirectory);
 	}

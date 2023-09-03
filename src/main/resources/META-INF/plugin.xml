@@ -14,16 +14,30 @@
        Simple HTML elements (text formatting, paragraphs, and lists) can be added inside of <![CDATA[ ]]> tag.
        Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
   <description><![CDATA[
-    Allow to redeploy resource files on the fly for JBoss EAP.<br>
-    <h3>To redeploy file:</h3>
-    <p>Press Ctrl+\ Ctrl+P</p>
-    <em>or</em>
-    <p>Use "Redeploy Resource" item of right mouse click menu popup</p>
+    <h3>1. Allows to redeploy resource files on the fly for JBoss EAP:</h3>
+    <p>Press Ctrl+\ Ctrl+P<br>
+    <em>or</em><br>
+    Use "Redeploy Resource" item of right mouse click menu popup</p>
+    <hr>
+    <h3>2. Allows to upload data to knowledge database for the future usage by AI:</h3>
+    <ul>
+      <li>select code to store its description in Knowledge Base</li>
+      <li>choose menu Help -> Knowledge Base</li>
+      <li>fill the form and press OK</li>
+    </ul>
   ]]></description>
+
+  <change-notes><![CDATA[
+    v2.0
+    <hr>
+    <p>The ability to store code example or some useful information in Knowledge database is added.</p>
+    <p>This information will be used by AI for systematization and smart search prompts in the future.</p>
+  ]]></change-notes>
 
   <!-- Product and plugin compatibility requirements.
        Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
   <depends>com.intellij.modules.platform</depends>
+  <depends>Git4Idea</depends>
 
   <!-- Extension points defined by the plugin.
        Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
@@ -40,10 +54,15 @@
             displayName="BetterFly: Plugin Settings"/>
   </extensions>
   <actions>
-    <action id="com.unitedthinkers.fly.SaveAction" class="com.unitedthinkers.fly.SaveAction" text="Redeploy Resource"
+    <action id="com.unitedthinkers.fly.CopyFileAction" class="com.unitedthinkers.fly.CopyFileAction" text="Redeploy Resource"
             description="Redeploy Resource">
       <keyboard-shortcut keymap="$default" first-keystroke="ctrl BACK_SLASH" second-keystroke="ctrl P"/>
       <add-to-group group-id="EditorPopupMenu" anchor="first"/>
+    </action>
+    <action id="com.unitedthinkers.fly.KnowledgeBaseAction" class="com.unitedthinkers.fly.KnowledgeBaseAction"
+            text="Knowledge Base"
+            description="Knowledge Base">
+      <add-to-group group-id="HelpMenu" anchor="first"/>
     </action>
   </actions>
 </idea-plugin>

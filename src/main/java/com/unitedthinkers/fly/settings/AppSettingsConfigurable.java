@@ -37,6 +37,9 @@ public class AppSettingsConfigurable implements Configurable {
 		AppSettingsState settings = AppSettingsState.getInstance();
 		boolean modified = !mySettingsComponent.getJbossPathText().equals(settings.jbossPath);
 		modified |= mySettingsComponent.getModuleArtifactIdText() != settings.moduleArtifactId;
+		modified |= mySettingsComponent.getGoogleKeyFileText() != settings.googleKeyFile;
+		modified |= mySettingsComponent.getGoogleSheetsFileText() != settings.googleSheetsDataFile;
+		modified |= mySettingsComponent.getGoogleSheetsFileText() != settings.googleSheetsTagFile;
 		return modified;
 	}
 
@@ -45,6 +48,9 @@ public class AppSettingsConfigurable implements Configurable {
 		AppSettingsState settings = AppSettingsState.getInstance();
 		settings.jbossPath = mySettingsComponent.getJbossPathText();
 		settings.moduleArtifactId = mySettingsComponent.getModuleArtifactIdText();
+		settings.googleKeyFile = mySettingsComponent.getGoogleKeyFileText();
+		settings.googleSheetsDataFile = mySettingsComponent.getGoogleSheetsFileText();
+		settings.googleSheetsTagFile = mySettingsComponent.getGoogleSheetsTagText();
 	}
 
 	@Override
@@ -52,6 +58,9 @@ public class AppSettingsConfigurable implements Configurable {
 		AppSettingsState settings = AppSettingsState.getInstance();
 		mySettingsComponent.setJbossPathText(settings.jbossPath);
 		mySettingsComponent.setModuleArtifactIdText(settings.moduleArtifactId);
+		mySettingsComponent.setGoogleKeyFileText(settings.googleKeyFile);
+		mySettingsComponent.setGoogleSheetsFileText(settings.googleSheetsDataFile);
+		mySettingsComponent.setGoogleSheetsTagText(settings.googleSheetsTagFile);
 	}
 
 	@Override

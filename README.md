@@ -4,7 +4,7 @@ Intellij IDEA plugin allows:
 
    All **non java class** files are considered as resource ones.
 
-3. To form and store usefull for development data in cloud storage for future usage by AI system.
+3. To form and store usefull for development process data in cloud storage for future usage by AI system.
 
 ## Build
 1. Download zipped project folder or clone it with git.
@@ -23,7 +23,7 @@ Intellij IDEA plugin allows:
 ```
 gradlew.bat buildPlugin
 ```
-You can find plugin jar file on path: build/distributions/BetterFly-[version].zip
+You can find plugin zip file on path: build/distributions/BetterFly-[version].zip
 ## Install
 Go to plugin settings by choosing menu File -> Settings -> Plugins
 
@@ -47,17 +47,17 @@ You must enter:
 ## Usage
 1. For redeploy resources:
 
-when your current IDE editor window contains resource file:
+   when your current IDE editor window contains resource file:
 
-- press Ctrl+\ Ctrl+P
+   - press Ctrl+\ Ctrl+P
 
-or
+   or
 
-- use "Redeploy Resource" item of right mouse click menu popup:
+   - use "Redeploy Resource" item of right mouse click menu popup:
 
 ![Popup Menu](https://i.imgur.com/wYt2BET.png)
 
-When resource file is copied successfully you'll see popup message:
+   When resource file is copied successfully you'll see popup message:
 
 ![Success message](https://i.imgur.com/RrDbLXi.png)
 

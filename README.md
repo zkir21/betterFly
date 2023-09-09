@@ -23,7 +23,7 @@ All **non java class** files are considered as resource ones.
 ```
 gradlew.bat buildPlugin
 ```
-You can find plugin jar file on path: build/distributions/fly-[version].jar
+You can find plugin jar file on path: build/distributions/BetterFly-[version].zip
 ## Install
 Go to plugin settings by choosing menu File -> Settings -> Plugins
 
@@ -46,6 +46,7 @@ You must enter:
 5. Google Sheets Tag file Id (default value - 14EpCUWZvnZrU2fhjrRw2p6qr1_E1QJzXqlUCi6CEyXc). This file contains modules/packages/classes/files mapping on predefined tags.
 ## Usage
 1. For redeploy resources:
+
 When your current IDE editor window contains resource file:
 
 - press Ctrl+\ Ctrl+P
@@ -61,10 +62,11 @@ When resource file is copied successfully you'll see popup message:
 ![Success message](https://i.imgur.com/RrDbLXi.png)
 
 2. For knowledge data storage:
+
    select some code for comment and choose menu Help -> Knowledge Base. You can not select code if it is not necessary.
    The following form is displayed:
    ![Knowledge Base Form](https://i.imgur.com/69Ar0Lz.png)
-   The "User Name", "Task" and "Tags" fields are filled automatically. "User Name" and "Task" fields are calculated from git repository information. "Tags" field is calculated by using modules/packages/classes/files mapping on predefined tags from Google Sheets Tag file. These fields can be empty if your current git branch does not contaion task code in its name or there is no mapping of your current module/package/class/file in Google Sheets Tag file.
+   Fields "User Name", "Task" and "Tags" are filled automatically. "User Name" and "Task" fields are calculated from git repository information. "Tags" field is calculated by using modules/packages/classes/files mapping on predefined tags from Google Sheets Tag file. These fields can be empty if your current git branch does not contaion task code in its name or there is no mapping of your current module/package/class/file in Google Sheets Tag file.
 ## Limitations
 Mvel files can not be redeployed.
 

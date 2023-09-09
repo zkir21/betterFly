@@ -1,8 +1,12 @@
 package com.unitedthinkers.fly.utils;
 
+import com.intellij.notification.Notification;
+import com.intellij.notification.NotificationAction;
 import com.intellij.notification.NotificationGroupManager;
 import com.intellij.notification.NotificationType;
 import com.intellij.openapi.actionSystem.AnActionEvent;
+import com.intellij.openapi.options.ShowSettingsUtil;
+import com.unitedthinkers.fly.settings.AppSettingsConfigurable;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -36,9 +40,24 @@ public class NotificationUtil {
 	}
 
 	public static void notify(@NotNull AnActionEvent e, String content, NotificationType type) {
-		NotificationGroupManager.getInstance()
+		notify(e, content, type, false);
+	}
+
+	public static void notify(@NotNull AnActionEvent e, String content, NotificationType type, boolean showSettings) {
+		Notification notification = NotificationGroupManager.getInstance()
 				.getNotificationGroup(NOTIFICATION_GROUP)
-				.createNotification(NOTIFICATION_STATUS, content, type)
-				.notify(e.getProject());
+				.createNotification(NOTIFICATION_STATUS, content, type);
+
+		if (showSettings) {
+			notification.addAction(new NotificationAction("Settings") {
+				@Override
+				public void actionPerformed(@NotNull AnActionEvent e, @NotNull Notification notification) {
+					ShowSettingsUtil.getInstance().showSettingsDialog(e.getProject(), AppSettingsConfigurable.class);
+					notification.expire();
+				}
+			});
+		}
+
+		notification.notify(e.getProject());
 	}
 }

@@ -68,7 +68,7 @@ public class KnowledgeBaseAction extends AnAction {
 				NotificationUtil.notify(event, Messages.SAVED_SUCCESSFULLY.getValue(), NotificationType.INFORMATION);
 			}
 		} catch (BetterFlyException e) {
-			NotificationUtil.notify(event, e.getUiMessage(), NotificationType.ERROR);
+			NotificationUtil.notify(event, e.getUiMessage(), NotificationType.ERROR, e.getFailureCode().isShowSettings());
 		}
 	}
 

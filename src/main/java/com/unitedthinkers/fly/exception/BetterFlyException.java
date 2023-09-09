@@ -14,23 +14,29 @@ public class BetterFlyException extends RuntimeException {
 	private FailureCode failureCode;
 	private String description;
 
-	enum FailureCode {
-		B01("File not specified"),
-		B02("Google Sheets File Id not specified"),
-		B03("Google communication error"),
-		B04("Google security problem"),
-		B05("Parse file exception"),
-		B06("Copy file exception"),
+	public enum FailureCode {
+		B01("File not specified", true),
+		B02("Google Sheets File Id not specified", true),
+		B03("Google communication error", false),
+		B04("Google security problem", false),
+		B05("Parse file exception", false),
+		B06("Copy file exception", false),
 		;
 
-		String message;
+		final String message;
+		final boolean showSettings;
 
-		FailureCode(String message) {
+		FailureCode(String message, boolean showSettings) {
 			this.message = message;
+			this.showSettings = showSettings;
 		}
 
 		public String getMessage() {
 			return message;
+		}
+
+		public boolean isShowSettings() {
+			return showSettings;
 		}
 	}
 
@@ -63,6 +69,10 @@ public class BetterFlyException extends RuntimeException {
 			message += ": " + description;
 		}
 		return message;
+	}
+
+	public FailureCode getFailureCode() {
+		return failureCode;
 	}
 
 	public static BetterFlyException b01(String description) {

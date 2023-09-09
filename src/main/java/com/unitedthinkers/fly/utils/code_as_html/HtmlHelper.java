@@ -55,46 +55,40 @@ public class HtmlHelper {
 
 	public String getCodeAsHtml(AnActionEvent event) {
 		DataContext dataContext = event.getDataContext();
-		Project project = (Project)dataContext.getData(PlatformDataKeys.PROJECT.getName());
 		Editor editor = (Editor)dataContext.getData(PlatformDataKeys.EDITOR.getName());
+
 		if (editor != null) {
 			TextRange textRange = Utils.getSelectedTextRange(editor);
+			if (textRange.getEndOffset() == Integer.MAX_VALUE) {
+				return null;
+			}
 			PsiFile psiFile = (PsiFile)dataContext.getData(LangDataKeys.PSI_FILE.getName());
 			EditorColorsScheme colorsScheme = editor.getColorsScheme();
 			CodeStyle defaultCodeStyle = this.getDefaultCodeStyle(editor);
 			Document document = editor.getDocument();
 			int startLineNo = document.getLineNumber(textRange.getStartOffset()) + 1;
 			int endLineNo = document.getLineNumber(textRange.getEndOffset() - 1) + 1;
-			int maxLineNo = endLineNo;//configuration.getLineNosStartAt1() ? endLineNo - startLineNo + 1 : endLineNo;
+			int maxLineNo = endLineNo;
 			this._lineNumberCharCount = (int)Math.ceil(Math.log((double)(maxLineNo + 1)) / Math.log(10.0));
 			Color lineNosColor = colorsScheme.getColor(EditorColors.LINE_NUMBERS_COLOR);
 			Color lineNosBackgroundColor = colorsScheme.getColor(EditorColors.GUTTER_BACKGROUND);
 			this._lineNoCodeStyle = new CodeStyle(lineNosColor, lineNosBackgroundColor, false, false, (Color)null, (Color)null, (Color)null);
-			this._lineNo = startLineNo;//configuration.getLineNosStartAt1() ? 0 : startLineNo;
+			this._lineNo = startLineNo;
 			this._isStartOfLine = true;
 			this._highlightStartIndex = 0;
-			this._showLineNos =  editor.getSettings().isLineNumbersShown();//Configuration.LINE_NO_FOLLOW.equals(lineNoType) ? editor.getSettings().isLineNumbersShown() : Configuration.LINE_NO_ALWAYS.equals(lineNoType);
-			this._unindent = true;//configuration.isUnindent();
-		//	String fontSizeType = configuration.getFontSizeType();
+			this._showLineNos =  editor.getSettings().isLineNumbersShown();
+			this._unindent = true;
 			this._fontSize = null;
-		//	if (Configuration.FONT_SIZE_FOLLOW.equals(fontSizeType)) {
-				this._fontSize = colorsScheme.getEditorFontSize();
-		//	} else if (Configuration.FONT_SIZE_FIXED.equals(fontSizeType)) {
-		//		this._fontSize = configuration.getFontSize();
-		//	}
+			this._fontSize = colorsScheme.getEditorFontSize();
 
 			this._tabText = null;
-//			if (configuration.isTabsToSpaces()) {
-				this._tabText = Utils.repeat(' ', 4);
-//			}
+			this._tabText = Utils.repeat(' ', 4);
 
+			Project project = (Project)dataContext.getData(PlatformDataKeys.PROJECT.getName());
 			String html = this.copyAsHtml(project, defaultCodeStyle, colorsScheme, editor, psiFile, textRange);
 			LOGGER.info(html);
 
 			return html;
-//			Clipboard systemClipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-//			int mimeTypes = configuration.getMimeTypes();
-//			ClipboardHelper.publish(systemClipboard, mimeTypes, html);
 		}
 		return null;
 	}
@@ -181,16 +175,11 @@ public class HtmlHelper {
 		CodeStyle currentCodeStyle = null;
 		int commonWhiteSpacePrefixCount = this._unindent ? this.getCommonWhiteSpacePrefixCount(text, startOffset, endOffset) : 0;
 		List rangeHighlighters = this.getRangeHighlighters(editor);
-//		Configuration configuration = Configuration.getInstance();
 		buffer.append("<pre style=\"line-height: 100%;font-family:monospace;background-color:");
 		buffer.append(_colorFormat.format(defaultCodeStyle.getBackgroundColor()));
-//		if (configuration.getAddBorder()) {
-			buffer.append("; border-width:0.01mm; border-color:#000000; border-style:solid;");
-//		}
+		buffer.append("; border-width:0.01mm; border-color:#000000; border-style:solid;");
 
-//		if (configuration.isIncludePadding()) {
-			buffer.append("padding:").append(10).append("px;");
-//		}
+		buffer.append("padding:").append(10).append("px;");
 
 		if (this._fontSize != null) {
 			buffer.append("font-size:").append(this._fontSize).append("pt;");

@@ -29,7 +29,7 @@ public class GoogleSheetsLive {
 	public static void add(KnowledgeBase data) {
 		try {
 			AppSettingsState settings = AppSettingsState.getInstance();
-			if (settings.googleSheetsDataFile == null) {
+			if (Strings.isNullOrEmpty(settings.googleSheetsDataFile)) {
 				throw BetterFlyException.b02("knowledge base data file");
 			}
 			final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/mm/dd");

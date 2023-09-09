@@ -49,11 +49,11 @@ You must enter:
 
    when your current IDE editor window contains resource file:
 
-   - press Ctrl+\ Ctrl+P
+- press Ctrl+\ Ctrl+P
 
    or
 
-   - use "Redeploy Resource" item of right mouse click menu popup:
+- use "Redeploy Resource" item of right mouse click menu popup:
 
 ![Popup Menu](https://i.imgur.com/wYt2BET.png)
 

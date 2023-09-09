@@ -2,9 +2,9 @@
 Intellij IDEA plugin allows:
 1. To redeploy JBoss resource files on the fly. Plugin is tested on _JBoss EAP 6.4_.
 
-All **non java class** files are considered as resource ones.
+   All **non java class** files are considered as resource ones.
 
-2. To form and store usefull for development data in cloud storage for future usage by AI system.
+3. To form and store usefull for development data in cloud storage for future usage by AI system.
 
 ## Build
 1. Download zipped project folder or clone it with git.
@@ -47,7 +47,7 @@ You must enter:
 ## Usage
 1. For redeploy resources:
 
-When your current IDE editor window contains resource file:
+when your current IDE editor window contains resource file:
 
 - press Ctrl+\ Ctrl+P
 
@@ -61,12 +61,14 @@ When resource file is copied successfully you'll see popup message:
 
 ![Success message](https://i.imgur.com/RrDbLXi.png)
 
-2. For knowledge data storage:
+2. For knowledge database:
 
-   select some code for comment and choose menu Help -> Knowledge Base. You can not select code if it is not necessary.
+   select some code for comment and choose menu Help -> Knowledge Base. Нou don't have to select code if it is not necessary.
    The following form is displayed:
    ![Knowledge Base Form](https://i.imgur.com/69Ar0Lz.png)
-   Fields "User Name", "Task" and "Tags" are filled automatically. "User Name" and "Task" fields are calculated from git repository information. "Tags" field is calculated by using modules/packages/classes/files mapping on predefined tags from Google Sheets Tag file. These fields can be empty if your current git branch does not contaion task code in its name or there is no mapping of your current module/package/class/file in Google Sheets Tag file.
+   Fields "User Name", "Task" and "Tags" are filled automatically. "User Name" and "Task" fields are calculated from git repository information. "Tags" field is calculated by using modules/packages/classes/files mapping on predefined tags from Google Sheets Tag file.
+
+   These fields can be empty if your current git branch does not contaion task code in its name or there is no mapping of your current module/package/class/file in Google Sheets Tag file.
 ## Limitations
 Mvel files can not be redeployed.
 

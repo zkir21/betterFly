@@ -63,7 +63,7 @@ You must enter:
 
 2. For knowledge database:
 
-   select some code for comment and choose menu Help -> Knowledge Base. Нou don't have to select code if it is not necessary.
+   select some code for comment and choose menu Help -> Knowledge Base. You don't have to select code if it is not necessary.
    The following form is displayed:
    ![Knowledge Base Form](https://i.imgur.com/69Ar0Lz.png)
    Fields "User Name", "Task" and "Tags" are filled automatically. "User Name" and "Task" fields are calculated from git repository information. "Tags" field is calculated by using modules/packages/classes/files mapping on predefined tags from Google Sheets Tag file.

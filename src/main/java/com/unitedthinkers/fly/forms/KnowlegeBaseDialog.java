@@ -57,6 +57,7 @@ public class KnowlegeBaseDialog extends DialogWrapper {
 
     txbComment.setBorder(BorderFactory.createCompoundBorder(
             txbComment.getBorder(), BorderFactory.createEmptyBorder(5, 5, 5, 5)));
+    txbComment.setLineWrap(true);
   }
 
   @Override
